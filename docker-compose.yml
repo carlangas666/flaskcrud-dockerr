@@ -9,6 +9,9 @@ services:
     env_file:
       - .env
     restart: on-failure
+    networks:
+      - dokploy-network
+      - default
 
   db:
     image: mysql:8
@@ -22,3 +25,11 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    networks:
+      - default
+
+networks:
+  dokploy-network:
+    external: true
+  default:
+    driver: bridge

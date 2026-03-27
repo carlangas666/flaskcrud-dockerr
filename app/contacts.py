@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
-from db import mysql
+from app.db import mysql
 
-contacts = Blueprint('contacts', __name__, template_folder='app/templates')
+contacts = Blueprint('contacts', __name__, template_folder='templates')
 
 def get_db_connection():
     return mysql.connection
@@ -13,7 +13,6 @@ def Index():
     data = cur.fetchall()
     cur.close()
     return render_template('index.html', contacts=data)
-
 
 @contacts.route('/add_contact', methods=['POST'])
 def add_contact():
@@ -32,7 +31,6 @@ def add_contact():
             flash(e.args[1])
             return redirect(url_for('contacts.Index'))
 
-
 @contacts.route('/edit/<id>', methods=['POST', 'GET'])
 def get_contact(id):
     cur = mysql.connection.cursor()
@@ -41,7 +39,6 @@ def get_contact(id):
     cur.close()
     print(data[0])
     return render_template('edit-contact.html', contact=data[0])
-
 
 @contacts.route('/update/<id>', methods=['POST'])
 def update_contact(id):
@@ -60,7 +57,6 @@ def update_contact(id):
         flash('Contact Updated Successfully')
         mysql.connection.commit()
         return redirect(url_for('contacts.Index'))
-
 
 @contacts.route('/delete/<string:id>', methods=['POST', 'GET'])
 def delete_contact(id):

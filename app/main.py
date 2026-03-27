@@ -1,5 +1,5 @@
 from app.app import app
-from app.contacts import contacts
+from contacts import contacts
 
 app.register_blueprint(contacts)
 
